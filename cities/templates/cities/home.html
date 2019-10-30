@@ -4,19 +4,64 @@
 
 
 {% block content %}
-<h1 class="display-4">Города</h1>
+<h1 class="display-4 text-center my-4">Города</h1>
 <div class="row">
-    <div class="col-md-6">
-        {% for object in objects_list %}
-        <p>{{ object.name }}</p>
-        {% endfor %}
+    <div class="col-md-6 mx-auto">
+        <table class="table table-striped">
+            <tbody>
+                {% for object in objects_list %}
+                <tr>
+                    <td>
+                        <a href='{% url "city:detail" pk=object.pk %}'>
+                            {{ object.name }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href='{% url "city:update" pk=object.pk %}'>
+                            <button type="button" class="btn btn-primary btn-sm">
+                                Редактировать
+                            </button>
+                        </a>
+                    </td>
+                    <td>
+                        <a href='{% url "city:delete" pk=object.pk %}'>
+                            <button type="button" class="btn btn-danger btn-sm">
+                                Удалить
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            <span class="step-links">
+                {% if objects_list.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ objects_list.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ objects_list.number }} of {{ objects_list.paginator.num_pages }}.
+                </span>
+
+                {% if objects_list.has_next %}
+                <a href="?page={{ objects_list.next_page_number }}">next</a>
+                <a href="?page={{ objects_list.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     </div>
 </div>
 
-<form action="" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <br>
-    <input type="submit" value="Сохранить">
-</form>
+<div class="row">
+    <div class="col-md-6">
+        <a href='{% url "city:add" %}'>
+            <button type="button" class="btn btn-info btn-sm">
+                Добавить новый город
+            </button>
+        </a>
+    </div>
+</div>
+
 {% endblock content %}

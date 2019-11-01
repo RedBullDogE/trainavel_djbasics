@@ -11,7 +11,7 @@ from .forms import CityForm
 
 def home(request):
     city_list = City.objects.all()     # pylint: disable=maybe-no-member
-    paginator = Paginator(city_list, 2)
+    paginator = Paginator(city_list, 8)
     page = request.GET.get('page')
     cities = paginator.get_page(page)
     return render(request, 'cities/home.html', {'objects_list': cities})

@@ -1,4 +1,5 @@
 {% url 'city:home' as city_home_url %}
+{% url 'train:home' as train_home_url %}
 
 <!doctype html>
 <html lang="en">
@@ -16,36 +17,25 @@
 </head>
 
 <body>
-    <!-- <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-        <h5 class="my-0 mr-md-auto font-weight-normal">TravelDrrreeewww!</h5>
-        <nav class="my-2 my-md-0 mr-md-3">
-            <a class="p-2 text-dark" href="{% url 'city:home' %}">Города</a>
-            <a class="p-2 text-dark" href="#">Enterprise</a>
-            <a class="p-2 text-dark" href="#">Support</a>
-            <a class="p-2 text-dark" href="#">Pricing</a>
-        </nav>
-        <a class="btn btn-outline-primary" href="#">Sign up</a>
-    </div> -->
-
     <div class="container my-4">
         <div class="row">
             <div class="col-md-8 mx-auto">
                 {% if messages %}
-                    {% for message in messages %}
-                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                        <div class="alert alert-danger messages">
-                            <span {% if message.tags %} class="{{ message.tags }}" {% endif %}>
-                                Внимание! {{ message }} <br />
-                            </span>
-                        </div>
-                        {% else %}
-                        <div class="alert alert-success messages">
-                            <span {% if message.tags %} class="{{ message.tags }}" {% endif %}>
-                                {{ message }} <br />
-                            </span>
-                        </div>
-                        {% endif %}
-                    {% endfor %}
+                {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <div class="alert alert-danger messages">
+                    <span {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                        Внимание! {{ message }} <br />
+                    </span>
+                </div>
+                {% else %}
+                <div class="alert alert-success messages">
+                    <span {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                        {{ message }} <br />
+                    </span>
+                </div>
+                {% endif %}
+                {% endfor %}
                 {% endif %}
             </div>
         </div>
@@ -61,11 +51,14 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item {% if request.path == city_home_url %} active {% endif %}">
-                        <a class="nav-link" href="{% url 'city:home' %}">Города<span
-                                class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{% url 'city:home' %}">Города
+                            {% if request.path == city_home_url %}<span class="sr-only">(current)</span>{% endif %}
+                        </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
+                    <li class="nav-item {% if request.path == train_home_url %} active {% endif %}">
+                        <a class="nav-link" href="{% url 'train:home' %}">Поезда
+                            {% if request.path == train_home_url %}<span class="sr-only">(current)</span>{% endif %}
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Pricing</a>

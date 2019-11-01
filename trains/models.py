@@ -23,12 +23,15 @@ class Train(models.Model):
     def clean(self, *args, **kwargs):
         if self.from_city == self.to_city:
             raise ValidationError('Некорректный город прибытия!')
+        
+        if self.travel_time <= 0:
+            raise ValidationError('Некорректно задано время!')
 
         query = Train.objects.filter(from_city=self.from_city,  # pylint: disable=maybe-no-member
                                      to_city=self.to_city,
                                      travel_time=self.travel_time).exclude(pk=self.pk)
 
         if query.exists():
-            raise ValidationError('Некорректное время пути')
-
+            raise ValidationError('Уже существует поезд на данном маршруте с таким же временем!')
+        
         return super(Train, self).clean(*args, **kwargs)

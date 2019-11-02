@@ -22,7 +22,7 @@
                 {% for object in objects_list %}
                 <tr>
                     <td>
-                        <a href='#'>
+                        <a href="{% url 'train:detail' pk=object.pk %}">
                             {{ object.name }}
                         </a>
                     </td>
@@ -36,14 +36,14 @@
                         {{ object.travel_time }}
                     </td>
                     <td>
-                        <a href='#'>
+                        <a href="{% url 'train:update' pk=object.pk %}">
                             <button type="button" class="btn btn-primary btn-sm">
                                 Редактировать
                             </button>
                         </a>
                     </td>
                     <td>
-                        <a href='#'>
+                        <a href="{% url 'train:delete' pk=object.pk %}">
                             <button type="button" class="btn btn-danger btn-sm">
                                 Удалить
                             </button>

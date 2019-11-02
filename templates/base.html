@@ -1,5 +1,7 @@
 {% url 'city:home' as city_home_url %}
+{% url 'city:add' as city_add_url %}
 {% url 'train:home' as train_home_url %}
+{% url 'train:add' as train_add_url %}
 
 <!doctype html>
 <html lang="en">
@@ -43,7 +45,7 @@
 
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom shadow-sm">
-            <a class="navbar-brand" href="{% url 'home' %}">Navbar</a>
+            <a class="navbar-brand" href="{% url 'home' %}">TRavelAIN</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -63,15 +65,18 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Pricing</a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown 
+                    {% if request.path == train_add_url or request.path == city_add_url %}
+                     active 
+                     {% endif %}">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown link
+                            Добавить
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            <a class="dropdown-item" href="{% url 'city:add' %}">Город</a>
+                            <a class="dropdown-item" href="{% url 'train:add' %}">Поезд</a>
+                            <!-- <a class="dropdown-item" href="#">Something else here</a> -->
                         </div>
                     </li>
                 </ul>

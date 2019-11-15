@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from trains.models import Train
 from cities.models import City
-from .forms import RouteForm
+from .forms import RouteForm, RouteModelForm
 
 
 def dfs_paths(graph, start, goal):
@@ -105,3 +105,39 @@ def find_routes(request):
         messages.error(request, 'Создайте маршрут')
         form = RouteForm()
         return render(request, 'routes/home.html', {'form': form})
+
+
+def add_route(request):
+    if request.method == 'POST':
+        pass
+    else:
+        data = request.GET
+        if data:
+            travel_times = data['travel_time']
+            from_city = data['from_city']
+            to_city = data['to_city']
+            across_cities = data['across_cities'].split(' ')
+            train_id_list = [int(x) for x in across_cities if x.isalnum()]
+            qs = Train.objects.filter(id__in=train_id_list)
+            form = RouteModelForm(initial={
+                'from_city': from_city,
+                'to_city': to_city,
+                'across_cities': across_cities.strip(),
+                'travel_times': travel_times})
+            route_description = [
+                f"Поезд №{train.name} следующий из {train.from_city} в {train.to_city}. Время в пути: {train.travel_time}ч."
+                for train in qs
+            ]
+            context = {
+                'form': form,
+                'description': route_description,
+                'from_city': from_city,
+                'to_city': to_city,
+                'travel_times': travel_times
+                }
+
+            return render(request, 'routes/create.html', context)
+        else:
+            messages.error(
+                request, 'Невозможно сохранить несуществующий маршрут')
+            return redirect('/')

@@ -9,6 +9,13 @@
     <div class="col-md-6">
         <form action="" method="POST">
             {% csrf_token %}
+            {{ form.as_p }}
+            <p>Маршрут из {{ from_city }} в {{ to_city }} продолжительностью {{ travel_times }}</p>
+            <p>Маршрут состоит из:
+                {% for d in descriptions %}
+                <p>{{ d }}</p>
+                {% endfor %}
+            </p>
             <input type="submit" value="Сохранить">
         </form>
     </div>

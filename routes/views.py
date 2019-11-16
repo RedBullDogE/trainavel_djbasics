@@ -178,7 +178,7 @@ class RouteDetailView(DetailView):
 
 class RouteListView(ListView):
     queryset = Route.objects.all()
-    # context_object_name = 'object'
+    context_object_name = 'objects_list'
     template_name = 'routes/list.html'
 
 

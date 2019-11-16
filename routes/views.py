@@ -1,8 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib import messages
+from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
+from django.views.generic.edit import DeleteView
+from django.urls import reverse_lazy
+
+
 from trains.models import Train
 from cities.models import City
-from django.contrib import messages
 from .models import Route
 from .forms import RouteForm, RouteModelForm
 
@@ -162,3 +168,24 @@ def add_route(request):
             messages.error(
                 request, 'Невозможно сохранить несуществующий маршрут')
             return redirect('/')
+
+
+class RouteDetailView(DetailView):
+    queryset = Route.objects.all()
+    context_object_name = 'object'
+    template_name = 'routes/detail.html'
+
+
+class RouteListView(ListView):
+    queryset = Route.objects.all()
+    # context_object_name = 'object'
+    template_name = 'routes/list.html'
+
+
+class RouteDeleteView(DeleteView):
+    model = Route
+    success_url = reverse_lazy('home')
+
+    def get(self, request, *args, **kwargs):
+        messages.success(request, 'Маршрут успешно удалён')
+        return self.post(request, *args, **kwargs)

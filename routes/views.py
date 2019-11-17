@@ -6,6 +6,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 from trains.models import Train
@@ -42,7 +43,6 @@ def get_graph():
 
     return graph
 
-@login_required(login_url='/login/')
 def home(request):
     form = RouteForm()
     return render(request, 'routes/home.html', {'form': form})
@@ -115,7 +115,7 @@ def find_routes(request):
         form = RouteForm()
         return render(request, 'routes/home.html', {'form': form})
 
-
+@login_required(login_url = '/login/')
 def add_route(request):
     if request.method == 'POST':
         form = RouteModelForm(request.POST or None)
@@ -183,7 +183,8 @@ class RouteListView(ListView):
     template_name = 'routes/list.html'
 
 
-class RouteDeleteView(DeleteView):
+class RouteDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = '/login/'
     model = Route
     success_url = reverse_lazy('home')
 

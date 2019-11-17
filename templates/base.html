@@ -80,8 +80,14 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="{% url 'city:add' %}">Город</a>
                             <a class="dropdown-item" href="{% url 'train:add' %}">Поезд</a>
-                            <!-- <a class="dropdown-item" href="#">Something else here</a> -->
                         </div>
+                    </li>
+                    <li class="nav-item ">
+                        {% if user.is_authenticated %}
+                        <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
+                        {% else %}
+                        <a class="nav-link" href="{% url 'login' %}">Войти</a>
+                        {% endif %}
                     </li>
                 </ul>
             </div>

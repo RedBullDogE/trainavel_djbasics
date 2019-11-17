@@ -5,6 +5,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 
 
 from trains.models import Train
@@ -41,7 +42,7 @@ def get_graph():
 
     return graph
 
-
+@login_required(login_url='/login/')
 def home(request):
     form = RouteForm()
     return render(request, 'routes/home.html', {'form': form})

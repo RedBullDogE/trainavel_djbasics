@@ -26,6 +26,6 @@ urlpatterns = [
     path('add_route/', add_route, name='add_route'),
     path('list/', RouteListView.as_view(), name='list'),
     path('detail/<int:pk>/', RouteDetailView.as_view(), name='detail'),
-    path('/<int:pk>/', RouteDeleteView.as_view(), name='delete'),
+    path('<int:pk>/', RouteDeleteView.as_view(), name='delete'),
     path('', home, name='home')
 ]
